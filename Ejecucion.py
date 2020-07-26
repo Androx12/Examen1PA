@@ -1,5 +1,8 @@
 from LinkedList import linkedlist
 from Vistas import vistasMenu
+from ObservationalPatter import myObservable
+from ObservationalPatter import myObserver
+import time
 import random
 import msvcrt
 
@@ -27,7 +30,7 @@ class ejecucionSistemaControl:
                 if (sEntrada_Usuario == '1'): #Flujo en 1
 
                     self.Obj_VistaMenu.mDiezLineas()
-                    self.Obj_VistaMenu.mOpcionesMenuInterno() #Se trae la vista de el Menú nterno
+                    self.Obj_VistaMenu.mOpcionesMenuInterno() #Se trae la vista de el Menú interno
 
                     sEntrada_Interna = input("Seleccione una opción de Menú --> ")
 
@@ -37,7 +40,7 @@ class ejecucionSistemaControl:
                         sReistro = input("Ingrese el nombre del participante: \n")
                         self.objLinkedList.append(sReistro)
                         print('')
-                        total = self.objLinkedList.length()
+                        total = self.objLinkedList.length() #El deletro de cantidad lo utilizamos para imprimir el valor de NODO
                         print('En este momento tenemos un total de {} participantes \n'.format(total))
                         print('Esta es la lista de TODOS los participantes \n')
                         self.objLinkedList.mostrar()
@@ -50,7 +53,7 @@ class ejecucionSistemaControl:
                             while(not bBanderaCiclo):
 
                                 self.Obj_VistaMenu.mDiezLineas()
-                                total = self.objLinkedList.length()
+                                total = self.objLinkedList.length() #El deletro de cantidad lo utilizamos para imprimir el valor de NODO
                                 print('En este momento tenemos un total de {} participantes \n'.format(total))
                                 print('Esta es la lista de TODOS los participantes \n')
                                 self.objLinkedList.mostrar()
@@ -101,12 +104,12 @@ class ejecucionSistemaControl:
                             if sEntrada_Interna == '3':
 
                                 self.Obj_VistaMenu.mDiezLineas()
-                                total = self.objLinkedList.length()
+                                total = self.objLinkedList.length() #Estblecer limite para random
                                 print('En este momento tenemos un total de {} participantes \n'.format(total))
                                 print('Esta es la lista de TODOS los participantes \n')
                                 self.objLinkedList.mostrar()
                                 print('')
-                                iGanador = (random.randrange(total))
+                                iGanador = (random.randrange(total)) #Utilizamos la libreria random para seleccionar un ganador
                                 print('El ganador de el premio es: {}'.format(self.objLinkedList.get(iGanador)))
                                 print('')
                                 self.Obj_VistaMenu.mContinuar()
@@ -127,6 +130,20 @@ class ejecucionSistemaControl:
                         self.Obj_VistaMenu.mDiezLineas()
                         self.Obj_VistaMenu.mFin_Programa() #Vista de Salida
                         BanderaPrograma = False
+
+                        ObjObservable = myObservable()  #Como creamos las clases Observable y Observer por aparte
+                        objObserver = myObserver()      #Ahora solo tenemos que instanciarlas
+
+                        ObjObservable.agregarObserver(objObserver)  #Llamamos al metodo de agragar al observador
+                                                                    #para poder ejecutarlo
+                        ObjObservable.start()   #Se inicia el patrón y sedefine un tiempo de ejecucion de 2
+                        time.sleep(2)           #segundos como parametro ya que no tenemos otro parametro
+                        ObjObservable.stop()    #que no sea tiempo, despues de eso lo detenemos
+                                                #en el metodo que dispara el evento 'Disparador' se ejecuta siempre y cuando el
+                                                #STOP no haya PUESTO UN FINISH  a la condicion de WHILE
+
+                        print("Final del Patrón Observational")
+
                     else:                       #Otra entrada genera un flujo de error para obligar al usuario
                         BanderaPrograma = True  #a ingresar los datos dentro del menú
                         self.Obj_VistaMenu.mDiezLineas()
