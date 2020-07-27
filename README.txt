@@ -1,4 +1,6 @@
 Andrey Rivera Quesada
+Josue Valverde Domínguez
+
 
 Link en GIT: https://github.com/Androx12/Examen1PA.git
 
